@@ -526,7 +526,7 @@ export default function Page() {
                                   <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 my-2">
                                     <div className="flex items-center">
                                     <Loader2 className="animate-spin h-5 w-5 text-gray-600 mr-2" />
-                                      <span>Inperpreting video...</span>
+                                      <span>Interpreting video...</span>
                                     </div>
                                   </div>
                                 ) : (
