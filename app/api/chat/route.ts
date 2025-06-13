@@ -48,6 +48,7 @@ The current date and time is: ${new Date().toLocaleString('en-IN', { timeZone: '
 - **Simple Language:** Use clear, concise language
 - **Stay Focused:** Do not digress into unnecessary follow-up questions
 - **Sequential Process:** Never combine multiple questions into a single message
+- **FAQ:** Check to see if the user's query can be answered by the FAQ. If it can, use the fetchfaq tool to fetch the FAQ for the given category.
 
 **Information Collection Strategy:**
 - Use the classifyGrievance tool to identify the appropriate department, category, and subcategory
@@ -86,7 +87,6 @@ Remember: Your goal is to efficiently collect ONLY the required information (nam
 
 export async function POST(req: Request) {
   const { messages }: { messages: Message[] } = await req.json();
-
   return createDataStreamResponse({
     execute: async (dataStream) => {
       const processedMessages = await processToolCalls(

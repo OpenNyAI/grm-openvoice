@@ -6,13 +6,23 @@ import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { useChat } from "@ai-sdk/react";
 import { useConversation } from "@elevenlabs/react";
-import { Bot, Loader2, MessageCircle, Mic, Speech, Square, Tag, User } from "lucide-react";
+import {
+  Bot,
+  Loader2,
+  MessageCircle,
+  Mic,
+  Speech,
+  Square,
+  Tag,
+  User,
+} from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { APPROVAL } from "../actions/utils";
 import { ClassifyGrievanceResult } from "../components/classify-grievance-result";
 import { CreateGrievanceResult } from "../components/create-grievance-result";
 import { DocumentUpload } from "../components/document-upload";
+import { FetchFaqResult } from "../components/fetch-faq-result";
 import UserIcon from "../components/Icons";
 
 export default function Page() {
@@ -126,7 +136,6 @@ export default function Page() {
     return "Click to start recording";
   };
 
-
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
@@ -141,7 +150,9 @@ export default function Page() {
     category?: string;
   }
 
-  const [conversationMessages, setConversationMessages] = useState<ConversationMessage[]>([]);
+  const [conversationMessages, setConversationMessages] = useState<
+    ConversationMessage[]
+  >([]);
   const conversation = useConversation({
     onConnect: () => console.log("Connected"),
     onDisconnect: () => console.log("Disconnected"),
@@ -199,10 +210,11 @@ export default function Page() {
                 {conversationMessages.map((message, index) => (
                   <div
                     key={index}
-                    className={`flex gap-3 ${message.source === "user"
-                      ? "justify-end "
-                      : "justify-start"
-                      }`}
+                    className={`flex gap-3 ${
+                      message.source === "user"
+                        ? "justify-end "
+                        : "justify-start"
+                    }`}
                   >
                     {message.source === "ai" && (
                       <Avatar className="h-8 w-8">
@@ -213,10 +225,11 @@ export default function Page() {
                     )}
 
                     <div
-                      className={`max-w-[70%] rounded-lg p-3 ${message.source === "user"
-                        ? "bg-primary text-white ml-auto"
-                        : "bg-muted"
-                        }`}
+                      className={`max-w-[70%] rounded-lg p-3 ${
+                        message.source === "user"
+                          ? "bg-primary text-white ml-auto"
+                          : "bg-muted"
+                      }`}
                     >
                       <div className="space-y-2">
                         <div className="flex items-center gap-2">
@@ -278,7 +291,8 @@ export default function Page() {
                   Namaste! Welcome to the CPGRAMS Grievance Redress Portal.
                 </p>
                 <p className="text-primary font-bold my-2">
-                  I&apos;m Seva, your digital assistant. How can I help you today?
+                  I&apos;m Seva, your digital assistant. How can I help you
+                  today?
                 </p>
                 <p className="text-primary my-2">
                   Would you like to file a grievance or do you need information
@@ -290,10 +304,11 @@ export default function Page() {
                 {messages.map((message) => (
                   <div
                     key={message.id}
-                    className={`flex items-start gap-3 my-6 ${message.role === "user"
-                      ? "justify-end ml-auto"
-                      : "justify-start mr-auto"
-                      } max-w-[90%]`}
+                    className={`flex items-start gap-3 my-6 ${
+                      message.role === "user"
+                        ? "justify-end ml-auto"
+                        : "justify-start mr-auto"
+                    } max-w-[90%]`}
                   >
                     {message.role !== "user" && (
                       <Avatar className="w-8 h-8 border">
@@ -301,14 +316,16 @@ export default function Page() {
                       </Avatar>
                     )}
                     <div
-                      className={`rounded-lg border px-6 text-default ${message.role === "user"
-                        ? `bg-user ${message.content.length < 50 &&
-                          !message.content.includes("\n")
-                          ? "w-fit py-4"
-                          : "max-w-full py-6"
-                        }`
-                        : "bg-assistant break-words max-w-full py-6"
-                        }`}
+                      className={`rounded-lg border px-6 text-default ${
+                        message.role === "user"
+                          ? `bg-user ${
+                              message.content.length < 50 &&
+                              !message.content.includes("\n")
+                                ? "w-fit py-4"
+                                : "max-w-full py-6"
+                            }`
+                          : "bg-assistant break-words max-w-full py-6"
+                      }`}
                     >
                       {message.role === "user" &&
                         !message.parts?.length &&
@@ -361,14 +378,15 @@ export default function Page() {
                                         Priority:
                                       </span>{" "}
                                       <span
-                                        className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${part.toolInvocation.args.priority ===
+                                        className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                                          part.toolInvocation.args.priority ===
                                           "high"
-                                          ? "bg-red-100 text-red-800"
-                                          : part.toolInvocation.args
-                                            .priority === "medium"
+                                            ? "bg-red-100 text-red-800"
+                                            : part.toolInvocation.args
+                                                .priority === "medium"
                                             ? "bg-yellow-100 text-yellow-800"
                                             : "bg-green-100 text-green-800"
-                                          }`}
+                                        }`}
                                       >
                                         {part.toolInvocation.args.priority
                                           .charAt(0)
@@ -399,7 +417,8 @@ export default function Page() {
                                     onClick={() =>
                                       addToolResult({
                                         toolCallId,
-                                        result: "No, I would like to add more information.",
+                                        result:
+                                          "No, I would like to add more information.",
                                       })
                                     }
                                   >
@@ -410,7 +429,10 @@ export default function Page() {
                             );
                           }
 
-                          if (toolName === "documentUpload" && state == "call") {
+                          if (
+                            toolName === "documentUpload" &&
+                            state == "call"
+                          ) {
                             return (
                               <div key={toolCallId}>
                                 <p className="mb-4 text-gray-600">
@@ -453,8 +475,8 @@ export default function Page() {
                                     Additional Support
                                   </h4>
                                   <p className="text-gray-600 mb-2">
-                                    There are support groups working in this area,
-                                    would you like additional support?
+                                    There are support groups working in this
+                                    area, would you like additional support?
                                   </p>
                                 </div>
 
@@ -504,6 +526,13 @@ export default function Page() {
                                   categories={result?.categories || []}
                                 />
                               );
+                            } else if (toolName === "fetchfaq") {
+                              const { result } = part.toolInvocation;
+                              return (
+                                <div key={partIndex} className="mt-3">
+                                  <FetchFaqResult {...result} />
+                                </div>
+                              );
                             }
                           } else {
                             return (
@@ -525,10 +554,19 @@ export default function Page() {
                                 ) : toolName === "generateVideoSummary" ? (
                                   <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 my-2">
                                     <div className="flex items-center">
-                                    <Loader2 className="animate-spin h-5 w-5 text-gray-600 mr-2" />
+                                      <Loader2 className="animate-spin h-5 w-5 text-gray-600 mr-2" />
                                       <span>Interpreting video...</span>
                                     </div>
                                   </div>
+                                ) : toolName === "fetchfaq" ? (
+                                  <>
+                                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 my-2">
+                                      <div className="flex items-center">
+                                        <Tag className="animate-pulse h-5 w-5 text-blue-600 mr-2" />
+                                        <span>Fetching FAQ...</span>
+                                      </div>
+                                    </div>
+                                  </>
                                 ) : (
                                   <div className="bg-gray-50 border border-gray-200 rounded-lg p-3 my-2">
                                     <div className="flex items-center">
@@ -577,8 +615,8 @@ export default function Page() {
                   isRecording
                     ? "Recording... Speak now"
                     : isProcessing
-                      ? "Processing speech..."
-                      : "Provide your grievance here..."
+                    ? "Processing speech..."
+                    : "Provide your grievance here..."
                 }
                 className={cn(
                   "flex-1 bg-background border-none shadow-none focus-visible:ring-0 focus-visible:border-transparent px-5 py-3 resize-none",
@@ -597,7 +635,10 @@ export default function Page() {
                     className="rounded-full bg-red-50 border-red-200 hover:bg-red-100"
                     title="Stop conversation"
                   >
-                    <Square className="size-4 text-red-600" strokeWidth={1.75} />
+                    <Square
+                      className="size-4 text-red-600"
+                      strokeWidth={1.75}
+                    />
                     {/* square */}
                   </Button>
                 ) : (
@@ -621,7 +662,10 @@ export default function Page() {
                     className="rounded-full bg-red-50 border-red-200 hover:bg-red-100"
                     title="Stop recording"
                   >
-                    <Square className="size-4 text-red-600" strokeWidth={1.75} />
+                    <Square
+                      className="size-4 text-red-600"
+                      strokeWidth={1.75}
+                    />
                     {/* square */}
                   </Button>
                 ) : (
@@ -648,8 +692,6 @@ export default function Page() {
                   </Button>
                 )}
               </div>
-
-
             </div>
           </div>
         </div>

@@ -32,6 +32,30 @@ const classifyGrievance = tool({
   },
 });
 
+const fetchfaq = tool({
+  description: "Fetch the FAQ for the given category.",
+  parameters: z.object({
+    query: z.string().describe("Category of the grievance"),
+  }),
+  execute: async function ({ query }) {
+    const response = await fetch(`${API_BASE_URL}/category/faq`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${API_TOKEN}`,
+      },
+      body: JSON.stringify({
+        query: query,
+      }),
+    });
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Failed to fetch FAQ");
+    }
+    return await response.json();
+  },
+});
+
 const createGrievance = tool({
   description:
     "Create a new grievance in the system. IMPORTANT: DO NOT call this function until you have collected ALL mandatory information from the user. The description field MUST include all personal details and category-specific required information in a structured format.",
@@ -124,7 +148,9 @@ const generateVideoSummary = tool({
     "Given a YouTube video link, analyze both audio and visual content to understand and summarize citizen concerns.",
   parameters: z.object({
     query: z.string().describe("The user's original query"),
-    url: z.string().describe("The YouTube video link at www.youtube.com or youtu.be"),
+    url: z
+      .string()
+      .describe("The YouTube video link at www.youtube.com or youtu.be"),
   }),
   execute: async function ({ query, url }) {
     try {
@@ -167,6 +193,7 @@ const additionalSupport = tool({
 
 export const tools = {
   classifyGrievance,
+  fetchfaq,
   createGrievance,
   performMySchemeSearch,
   generateVideoSummary,
