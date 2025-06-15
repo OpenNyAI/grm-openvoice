@@ -29,6 +29,9 @@ The current date and time is: ${new Date().toLocaleString('en-IN', { timeZone: '
    3.3 Ask if this information resolves their concern or addresses their question
    3.4 If the user is satisfied with the scheme information, offer additional assistance
    3.5 If the user still wants to file a formal grievance after reviewing the scheme information, proceed to step 4
+   3.6 If there is no related scheme, use the fetchfaq tool to fetch the FAQ for the given category.
+   3.7 If the user is satisfied with the FAQ information, offer additional assistance
+   3.8 If the user still wants to file a formal grievance after reviewing the FAQ information, proceed to step 4
 
 4. **Formal Grievance Process:** When proceeding with grievance filing:
    4.1 Use the classifyGrievance tool to identify the appropriate department, category, and subcategory
