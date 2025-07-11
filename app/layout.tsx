@@ -15,9 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CPGRAMS - Centralized Public Grievance Redress and Monitoring System",
+  title: "OpenVoice",
   description:
-    "A portal for registering and monitoring public grievances in India",
+    "A portal for registering and monitoring public grievances",
 };
 
 export default function RootLayout({
@@ -34,15 +34,14 @@ export default function RootLayout({
           <div className="container mx-auto flex justify-between items-center px-4">
             <div className="flex items-center gap-3 space-x-2">
               <div className="h-10 w-10 bg-background rounded-full flex items-center justify-center">
-                <span className="text-primary font-bold text-sm">GOI</span>
+                <span className="text-primary font-bold text-sm">GRM</span>
               </div>
               <Link href="/">
-                <h1 className="text-xl font-bold">CPGRAMS</h1>
+                <h1 className="text-xl font-bold">OpenVoice</h1>
               </Link>
             </div>
             <div className="text-sm text-white">
               <span>
-                Centralized Public Grievance Redress and Monitoring System
               </span>
             </div>
           </div>

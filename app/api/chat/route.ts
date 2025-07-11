@@ -6,7 +6,7 @@ import { tools } from "../../actions/tools";
 export const maxDuration = 60;
 
 const SYSTEM_PROMPT = `
-You are Seva, a focused and efficient digital assistant for the CPGRAMS (Centralized Public Grievance Redress and Monitoring System) portal. Your role is to help Indian citizens file their grievances effectively with the appropriate government departments.
+You are Seva, a focused and efficient digital assistant for the OpenVoice portal. Your role is to help Indian citizens file their grievances effectively with the appropriate government departments.
 
 The current date and time is: ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}
 

@@ -42,10 +42,6 @@ export default function Home() {
           </div>
         </div>
       </main>
-
-      <footer className="py-2 border-t text-center text-sm text-gray-500">
-        <p>{new Date().getFullYear()} OpenNyAI Maker Residency | Built with love by <a href="https://askjunior.ai" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">AskJunior</a></p>
-      </footer>
     </div>
   );
 }

@@ -153,6 +153,7 @@ export default function Page() {
   const [conversationMessages, setConversationMessages] = useState<
     ConversationMessage[]
   >([]);
+
   const conversation = useConversation({
     onConnect: () => console.log("Connected"),
     onDisconnect: () => console.log("Disconnected"),
@@ -166,9 +167,10 @@ export default function Page() {
     try {
       setIsConversating(true);
       await navigator.mediaDevices.getUserMedia({ audio: true });
-      await conversation.startSession({
-        agentId: "agent_01jwwkyttcfvpv6jq9sqg9mhys",
+      const session = await conversation.startSession({
+        agentId: process.env.NEXT_PUBLIC_AGENT_ID || "",
       });
+      console.log("Session started:", session);
     } catch (error) {
       console.error("Failed to start conversation:", error);
     }
@@ -210,11 +212,10 @@ export default function Page() {
                 {conversationMessages.map((message, index) => (
                   <div
                     key={index}
-                    className={`flex gap-3 ${
-                      message.source === "user"
-                        ? "justify-end "
-                        : "justify-start"
-                    }`}
+                    className={`flex gap-3 ${message.source === "user"
+                      ? "justify-end "
+                      : "justify-start"
+                      }`}
                   >
                     {message.source === "ai" && (
                       <Avatar className="h-8 w-8">
@@ -225,11 +226,10 @@ export default function Page() {
                     )}
 
                     <div
-                      className={`max-w-[70%] rounded-lg p-3 ${
-                        message.source === "user"
-                          ? "bg-primary text-white ml-auto"
-                          : "bg-muted"
-                      }`}
+                      className={`max-w-[70%] rounded-lg p-3 ${message.source === "user"
+                        ? "bg-primary text-white ml-auto"
+                        : "bg-muted"
+                        }`}
                     >
                       <div className="space-y-2">
                         <div className="flex items-center gap-2">
@@ -288,7 +288,7 @@ export default function Page() {
             {messages.length === 0 ? (
               <div className="p-6 m-4 rounded-lg border bg-assistant">
                 <p className="text-primary font-bold">
-                  Namaste! Welcome to the CPGRAMS Grievance Redress Portal.
+                  Namaste! Welcome to the OpenVoice Grievance Redress Portal.
                 </p>
                 <p className="text-primary font-bold my-2">
                   I&apos;m Seva, your digital assistant. How can I help you
@@ -304,11 +304,10 @@ export default function Page() {
                 {messages.map((message) => (
                   <div
                     key={message.id}
-                    className={`flex items-start gap-3 my-6 ${
-                      message.role === "user"
-                        ? "justify-end ml-auto"
-                        : "justify-start mr-auto"
-                    } max-w-[90%]`}
+                    className={`flex items-start gap-3 my-6 ${message.role === "user"
+                      ? "justify-end ml-auto"
+                      : "justify-start mr-auto"
+                      } max-w-[90%]`}
                   >
                     {message.role !== "user" && (
                       <Avatar className="w-8 h-8 border">
@@ -316,16 +315,14 @@ export default function Page() {
                       </Avatar>
                     )}
                     <div
-                      className={`rounded-lg border px-6 text-default ${
-                        message.role === "user"
-                          ? `bg-user ${
-                              message.content.length < 50 &&
-                              !message.content.includes("\n")
-                                ? "w-fit py-4"
-                                : "max-w-full py-6"
-                            }`
-                          : "bg-assistant break-words max-w-full py-6"
-                      }`}
+                      className={`rounded-lg border px-6 text-default ${message.role === "user"
+                        ? `bg-user ${message.content.length < 50 &&
+                          !message.content.includes("\n")
+                          ? "w-fit py-4"
+                          : "max-w-full py-6"
+                        }`
+                        : "bg-assistant break-words max-w-full py-6"
+                        }`}
                     >
                       {message.role === "user" &&
                         !message.parts?.length &&
@@ -378,15 +375,14 @@ export default function Page() {
                                         Priority:
                                       </span>{" "}
                                       <span
-                                        className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                                          part.toolInvocation.args.priority ===
+                                        className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${part.toolInvocation.args.priority ===
                                           "high"
-                                            ? "bg-red-100 text-red-800"
-                                            : part.toolInvocation.args
-                                                .priority === "medium"
+                                          ? "bg-red-100 text-red-800"
+                                          : part.toolInvocation.args
+                                            .priority === "medium"
                                             ? "bg-yellow-100 text-yellow-800"
                                             : "bg-green-100 text-green-800"
-                                        }`}
+                                          }`}
                                       >
                                         {part.toolInvocation.args.priority
                                           .charAt(0)
@@ -615,8 +611,8 @@ export default function Page() {
                   isRecording
                     ? "Recording... Speak now"
                     : isProcessing
-                    ? "Processing speech..."
-                    : "Provide your grievance here..."
+                      ? "Processing speech..."
+                      : "Provide your grievance here..."
                 }
                 className={cn(
                   "flex-1 bg-background border-none shadow-none focus-visible:ring-0 focus-visible:border-transparent px-5 py-3 resize-none",
